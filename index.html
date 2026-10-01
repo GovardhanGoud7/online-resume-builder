@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Builder</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+
+    <div class="form-section">
+        <h1>Resume Builder</h1>
+
+        <label for="name">Full Name</label>
+        <input type="text" id="name" placeholder="Enter your name">
+
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="Enter email">
+
+        <label for="phone">Phone</label>
+        <input type="text" id="phone" placeholder="Enter phone number">
+
+        <label for="address">Address</label>
+        <textarea id="address" placeholder="Enter address"></textarea>
+
+        <label for="objective">Career Objective</label>
+        <textarea id="objective" placeholder="Enter career objective"></textarea>
+
+        <label for="education">Education</label>
+        <textarea id="education" placeholder="B.Tech CSE - College Name - 2026"></textarea>
+
+        <label for="skills">Skills</label>
+        <textarea id="skills" placeholder="Java, Python, HTML, CSS, JavaScript"></textarea>
+
+        <label for="projects">Projects</label>
+        <textarea id="projects" placeholder="Resume Builder - HTML, CSS, JavaScript"></textarea>
+
+        <label for="certifications">Certifications</label>
+        <textarea id="certifications" placeholder="Python Certification, NPTEL"></textarea>
+
+        <button onclick="generateResume()">Generate Resume</button>
+        <button class="secondary" onclick="window.print()">Print / Save as PDF</button>
+    </div>
+
+    <div class="resume-section" id="resume">
+
+        <div class="resume-header">
+            <h1 id="r-name">Your Name</h1>
+            <p id="r-contact">Email | Phone</p>
+            <p id="r-address">Address</p>
+        </div>
+
+        <section>
+            <h2>Career Objective</h2>
+            <p id="r-objective">Your career objective will appear here.</p>
+        </section>
+
+        <section>
+            <h2>Education</h2>
+            <p id="r-education">Your education details will appear here.</p>
+        </section>
+
+        <section>
+            <h2>Technical Skills</h2>
+            <p id="r-skills">Your skills will appear here.</p>
+        </section>
+
+        <section>
+            <h2>Projects</h2>
+            <p id="r-projects">Your projects will appear here.</p>
+        </section>
+
+        <section>
+            <h2>Certifications</h2>
+            <p id="r-certifications">Your certifications will appear here.</p>
+        </section>
+
+    </div>
+
+</div>
+
+<script>
+function generateResume() {
+    const get = id => document.getElementById(id).value.trim();
+    const set = (id, value, fallback) => {
+        document.getElementById(id).textContent = value || fallback;
+    };
+
+    set("r-name", get("name"), "Your Name");
+
+    const contact = [get("email"), get("phone")].filter(Boolean).join(" | ");
+    set("r-contact", contact, "Email | Phone");
+
+    set("r-address", get("address"), "Address");
+    set("r-objective", get("objective"), "Your career objective will appear here.");
+    set("r-education", get("education"), "Your education details will appear here.");
+    set("r-skills", get("skills"), "Your skills will appear here.");
+    set("r-projects", get("projects"), "Your projects will appear here.");
+    set("r-certifications", get("certifications"), "Your certifications will appear here.");
+}
+</script>
+
+</body>
+</html>
