@@ -1,34 +1,25 @@
-function generateResume() {
+const $ = (id) => document.getElementById(id);
 
-    document.getElementById("r-name").innerText =
-        document.getElementById("name").value || "Your Name";
-
-    let email = document.getElementById("email").value;
-    let phone = document.getElementById("phone").value;
-
-    document.getElementById("r-contact").innerText =
-        email + " | " + phone;
-
-    document.getElementById("r-address").innerText =
-        document.getElementById("address").value || "Address";
-
-    document.getElementById("r-objective").innerText =
-        document.getElementById("objective").value ||
-        "Your career objective will appear here.";
-
-    document.getElementById("r-education").innerText =
-        document.getElementById("education").value ||
-        "Your education details will appear here.";
-
-    document.getElementById("r-skills").innerText =
-        document.getElementById("skills").value ||
-        "Your skills will appear here.";
-
-    document.getElementById("r-projects").innerText =
-        document.getElementById("projects").value ||
-        "Your projects will appear here.";
-
-    document.getElementById("r-certifications").innerText =
-        document.getElementById("certifications").value ||
-        "Your certifications will appear here.";
+function setTemplate() {
+  $('resume').className = $('template').value;
+  $('resume').dataset.color = $('color').value;
 }
+
+function generateResume() {
+  $('r-name').textContent = $('name').value || 'Your Name';
+
+  const contact = [$('email').value, $('phone').value].filter(Boolean).join(' | ');
+  $('r-contact').textContent = contact || 'Email | Phone';
+  $('r-address').textContent = $('address').value || 'Address';
+
+  ['objective', 'education', 'skills', 'projects', 'certifications'].forEach((key) => {
+    $('r-' + key).textContent = $(key).value || $('r-' + key).textContent;
+  });
+
+  setTemplate();
+}
+
+$('generate').addEventListener('click', generateResume);
+$('template').addEventListener('change', setTemplate);
+$('color').addEventListener('change', setTemplate);
+$('print').addEventListener('click', () => window.print());
