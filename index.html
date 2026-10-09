@@ -4,62 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Resume Builder</title>
-<style>
-  * { box-sizing: border-box; }
-  body { margin: 0; font-family: system-ui, sans-serif; background: #eef1f5; color: #1f2933; }
-  .app { display: grid; grid-template-columns: minmax(280px, 380px) 1fr; gap: 24px; padding: 24px; max-width: 1200px; margin: 0 auto; }
-  @media (max-width: 800px) { .app { grid-template-columns: 1fr; } }
-
-  /* ---------- Form ---------- */
-  .form { background: #fff; padding: 20px; border-radius: 10px; }
-  .form h1 { margin: 0 0 16px; font-size: 1.4rem; }
-  .form label { display: block; margin: 12px 0 4px; font-weight: 600; font-size: .9rem; }
-  .form input, .form textarea, .form select { width: 100%; padding: 8px; border: 1px solid #c4ccd6; border-radius: 6px; font: inherit; }
-  .form textarea { min-height: 70px; resize: vertical; }
-  .buttons { display: flex; gap: 8px; margin-top: 16px; flex-wrap: wrap; }
-  button { padding: 10px 14px; border: 0; border-radius: 6px; font: inherit; font-weight: 600; cursor: pointer; background: #2a5bd7; color: #fff; }
-  button.secondary { background: #3e4c59; }
-
-  /* ---------- Resume (shared) ---------- */
-  #resume { background: #fff; padding: 36px; min-height: 600px; border-radius: 10px; line-height: 1.5; }
-  #resume h1 { margin: 0; }
-  #resume h2 { margin: 22px 0 6px; font-size: 1.1rem; }
-  #resume p { margin: 0; white-space: pre-line; }
-  .contact { margin-top: 4px; font-size: .95rem; }
-
-  /* ---------- Color themes (set --accent) ---------- */
-  #resume { --accent: #2a5bd7; }
-  #resume[data-color="green"]  { --accent: #1b8a5a; }
-  #resume[data-color="red"]    { --accent: #c62f3b; }
-  #resume[data-color="purple"] { --accent: #7a3fc4; }
-  #resume[data-color="orange"] { --accent: #d9731a; }
-  #resume[data-color="teal"]   { --accent: #0f8b9a; }
-  #resume[data-color="black"]  { --accent: #1f2933; }
-
-  /* ---------- Template 1: Classic ---------- */
-  #resume.classic { font-family: Georgia, "Times New Roman", serif; }
-  .classic h1 { text-align: center; font-size: 2rem; color: var(--accent); }
-  .classic .contact, .classic .address { text-align: center; }
-  .classic h2 { border-bottom: 2px solid var(--accent); color: var(--accent); padding-bottom: 3px; text-transform: uppercase; font-size: 1rem; letter-spacing: .05em; }
-
-  /* ---------- Template 2: Modern ---------- */
-  #resume.modern { font-family: "Segoe UI", system-ui, sans-serif; border-top: 12px solid var(--accent); }
-  .modern h1 { color: var(--accent); font-size: 2.2rem; }
-  .modern h2 { color: var(--accent); border-left: 5px solid var(--accent); padding-left: 10px; }
-
-  /* ---------- Template 3: Minimal ---------- */
-  #resume.minimal { font-family: "Helvetica Neue", Arial, sans-serif; color: #333; }
-  .minimal h1 { font-weight: 300; font-size: 2.2rem; letter-spacing: .04em; color: var(--accent); }
-  .minimal h2 { font-weight: 600; font-size: .95rem; color: var(--accent); }
-
-  /* ---------- Print: only the resume ---------- */
-  @media print {
-    body { background: #fff; }
-    .form { display: none; }
-    .app { display: block; padding: 0; }
-    #resume { border-radius: 0; padding: 0; }
-  }
-</style>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 <div class="app">
@@ -86,25 +31,25 @@
     </select>
 
     <label for="name">Full Name</label>
-    <input id="name" type="text">
+    <input id="name" type="text" placeholder="Enter your name">
 
     <label for="email">Email</label>
-    <input id="email" type="email">
+    <input id="email" type="email" placeholder="Enter email">
 
     <label for="phone">Phone</label>
-    <input id="phone" type="tel">
+    <input id="phone" type="tel" placeholder="Enter phone number">
 
     <label for="address">Address</label>
-    <input id="address" type="text">
+    <input id="address" type="text" placeholder="Enter address">
 
     <label for="objective">Career Objective</label>
-    <textarea id="objective"></textarea>
+    <textarea id="objective" placeholder="Enter career objective"></textarea>
 
     <label for="education">Education</label>
-    <textarea id="education"></textarea>
+    <textarea id="education" placeholder="B.Tech CSE - College Name - 2026"></textarea>
 
     <label for="skills">Skills</label>
-    <textarea id="skills"></textarea>
+    <textarea id="skills" placeholder="Java, Python, HTML, CSS, JavaScript"></textarea>
 
     <label for="projects">Projects</label>
     <textarea id="projects"></textarea>
@@ -141,32 +86,6 @@
 
 </div>
 
-<script>
-  const $ = (id) => document.getElementById(id);
-
-  function setTemplate() {
-    $('resume').className = $('template').value;
-    $('resume').dataset.color = $('color').value;
-  }
-
-  function generateResume() {
-    $('r-name').textContent = $('name').value || 'Your Name';
-
-    const contact = [$('email').value, $('phone').value].filter(Boolean).join(' | ');
-    $('r-contact').textContent = contact || 'Email | Phone';
-    $('r-address').textContent = $('address').value || 'Address';
-
-    ['objective', 'education', 'skills', 'projects', 'certifications'].forEach((key) => {
-      $('r-' + key).textContent = $(key).value || $('r-' + key).textContent;
-    });
-
-    setTemplate();
-  }
-
-  $('generate').addEventListener('click', generateResume);
-  $('template').addEventListener('change', setTemplate); // switch templates instantly
-  $('color').addEventListener('change', setTemplate);    // switch colors instantly
-  $('print').addEventListener('click', () => window.print());
-</script>
+<script src="script.js"></script>
 </body>
 </html>
